@@ -3,7 +3,7 @@ local Sprite = require "sprites.Sprite"
 local anims = require "assets.anims"
 
 function love.load()
-	hex = love.graphics.newImage('assets/hex.png', format)
+	hex = love.graphics.newImage('assets/IsoHex.png', format)
 	love.graphics.setBackgroundColor(0, 1, 1, 1)
 	local success = love.window.setMode(1920, 1020)
 	hexWidth, hexHeight = hex:getDimensions() 
