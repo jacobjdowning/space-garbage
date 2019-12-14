@@ -24,8 +24,7 @@ function love.draw()
 		for r=0,10 do
 			if grid[q] == nil or grid[q][r] ~= 'hidden' then
 				text:set({{0,0,0,1},"" .. q .. "," .. r})
-				local x = q * hexUnits['q'][1] + r * hexUnits['r'][1] + 410
-				local y = q * hexUnits['q'][2] + r * hexUnits['r'][2] + -50
+				local x, y = hexCoordsToPixels(q,r)
 				love.graphics.draw(hex, x, y)
 				love.graphics.draw(text, x + hexWidth/2, y + hexHeight/2)
 				-- love.graphics.draw(hex, 
@@ -34,8 +33,7 @@ function love.draw()
 			end
 		end
 	end
-	local sx = selectorLoc['q'] * hexUnits['q'][1] + selectorLoc['r'] * hexUnits['r'][1] + 410
-	local sy = selectorLoc['q'] * hexUnits['q'][2] + selectorLoc['r'] * hexUnits['r'][2] + -50
+	local sx, sy = hexCoordsToPixels(selectorLoc['q'], selectorLoc['r'])
 	love.graphics.draw(selector, sx, sy)		
 
 	-- batch:clear()
@@ -63,4 +61,10 @@ function roundCorners(grid, rows, columns, radius)
 			end
 		end
 	end
+end
+
+function hexCoordsToPixels(q, r)
+	local x = q * hexUnits['q'][1] + r * hexUnits['r'][1] + 410
+	local y = q * hexUnits['q'][2] + r * hexUnits['r'][2] + -50
+	return x,y			
 end
