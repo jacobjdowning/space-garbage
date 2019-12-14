@@ -14,8 +14,7 @@ function love.draw()
 		for j=0,5 do
 			for i=0,9 do
 				love.graphics.draw(hex,
-					-- hexWidth*3/4
-					l*(29*3)+100+(i*hexWidth*1.5),
+					l*(hexWidth*3/4)+100+(i*hexWidth*1.5),
 					l*(hexHeight/2) +200 + j * hexHeight)
 			end
 		end
