@@ -8,6 +8,8 @@ local Sprite  = {
 	w = 0,
 	h = 0,
 	hide = false,
+	ox = 0,
+	oy = 0
 }
 Sprite.__index = Sprite
 
@@ -52,7 +54,7 @@ function Sprite:draw(spriteBatch)
 	    ox, oy = self.w/2.0, self.h/2.0
 	end
 	if not self.hide then
-		spriteBatch:add(self.quad, self.x, self.y, 0, 1, 1, ox, oy)
+		spriteBatch:add(self.quad, self.x, self.y, 0, 1, 1, ox + self.ox, oy + self.oy)
 	end
 end
 

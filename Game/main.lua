@@ -26,7 +26,7 @@ function love.load()
 
 	selector = Selector(quads['Sprites/Selector.png'], hexGrid) -- center this**
 
-	love.graphics.setBackgroundColor(0, 1, 1, 1)
+	love.graphics.setBackgroundColor(0, 0, 0, 1)
 	local success = love.window.setMode(1920, 1020)
 
 	font = love.graphics.newFont('assets/UniversCondensed.ttf', 16)
