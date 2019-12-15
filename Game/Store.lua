@@ -40,9 +40,6 @@ function Store:draw(batch)
 end
 
 function Store:fill()
-	for i,v in pairs(self.tiles) do
-		print(i,v)
-	end
 	self.currentTiles = {}
 	for i=1,4 do
 		table.insert(self.currentTiles, self.tileNames[love.math.random(#self.tileNames)])
