@@ -5,6 +5,8 @@ local Store = {
 	currentTiles = {},
 	image = nil,
 	selectedTiles = {},
+	bg = nil,
+	center = nil,
 }
 Store.__index = Store
 
@@ -14,7 +16,7 @@ setmetatable(Store, {
 			 end
 })
 
-function Store.new(image, map)
+function Store.new(image, map, bg, center)
 	local self = setmetatable({}, Store)
 	local winWidth = love.graphics.getWidth()
 	local _,_,imgWidth, _ = image:getViewport()
@@ -23,6 +25,8 @@ function Store.new(image, map)
 	self.image = image
 	self.tiles = map.tiles
 	self.tileNames = map.tileNames
+	self.bg = bg
+	self.center = center
 	return self
 end
 
@@ -34,7 +38,10 @@ function Store:draw(batch)
 	local _,_,imgWidth, _ = self.image:getViewport()
 	for i=1,#self.currentTiles do
 		if self.currentTiles[i] ~= nil then
-			batch:add(self.tiles[self.currentTiles[i]], self.x + (i-1) * imgWidth/4, self.y)
+			local x, y = self.x + (i-1) * imgWidth/4, self.y
+			batch:add(self.tiles[self.currentTiles[i]], x,y)
+			batch:add(self.bg, x,y)
+			batch:add(self.center, x, y, 0, 1, 1, -44, -25)
 		end
 	end
 end

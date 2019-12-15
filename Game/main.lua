@@ -15,7 +15,7 @@ function love.load()
 
 	map.set(quads, hexGrid)
 
-	store = Store(quads['UI/store.png'], map)
+	store = Store(quads['UI/store.png'], map, quads['Tiles/IsoEmpty.png'], quads['Tiles/Center.png'])
 
 	hex = quads["Tiles/IsoEmpty.png"]
 	hexGrid.set(hex)
