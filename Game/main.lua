@@ -3,9 +3,9 @@ local anims = require "assets.anims"
 local Store = require "Store"
 local Truck = require "Truck"
 local hexGrid = require "hexGrid"
+local Selector = require "Selector"
 local hexUnits
 local grid = {}
-local selectorLoc = {q = 5, r = 5} 
 local tiles = {}
 local store = nil
 local selectedTile = nil
@@ -26,7 +26,7 @@ function love.load()
 
 	truck = Truck(Truck.buildAnims(quads, anims['truck']), 5, 5, hexGrid)
 
-	selector = love.graphics.newImage('assets/Selector2.png')
+	selector = Selector(quads['Selector2.png'], hexGrid)
 
 	love.graphics.setBackgroundColor(0, 1, 1, 1)
 	local success = love.window.setMode(1920, 1020)
@@ -53,8 +53,6 @@ function love.draw()
 			end
 		end
 	end
-	local sx, sy = hexGrid.CoordsToPixels(selectorLoc['q'], selectorLoc['r'])
-	love.graphics.draw(selector, sx, sy)
 
 	store:draw()
 
@@ -64,6 +62,7 @@ function love.draw()
 
 	batch:clear()
 		-- Draw here
+		selector:draw(batch)
 		truck:draw(batch)
 	love.graphics.draw(batch)
 end
@@ -73,30 +72,27 @@ function love.update(dt)
 end
 
 function love.keypressed(key, code, isRepeat)
-	if 	   key == 'up' then selectorLoc['q'] = selectorLoc['q'] - 1
-	elseif key == 'down' then selectorLoc['q'] = selectorLoc['q'] + 1
-	elseif key == 'right' then selectorLoc['r'] = selectorLoc['r'] + 1
-	elseif key == 'left' then selectorLoc['r'] = selectorLoc['r'] - 1
-	elseif key == 'space' then place(1, 42)
-	elseif key == 'escape' then love.event.push('quit')
-	elseif key == 'f' then store:fill()
-	elseif key == '7' then selectedTile = store:select(1)
-	elseif key == '8' then selectedTile = store:select(2)
-	elseif key == '9' then selectedTile = store:select(3)
-	elseif key == '0' then selectedTile = store:select(4)
-	elseif key == 'm' then 
-		print(grid)
-		truck:advance(grid)
+	if 	   key == 'up'		then selector:move(1)
+	elseif key == 'down' 	then selector:move(4)
+	elseif key == 'right' 	then selector:move(3)
+	elseif key == 'left' 	then selector:move(6)
+	elseif key == 'space' 	then place(1, selector)
+	elseif key == 'escape'  then love.event.push('quit')
+	elseif key == 'f' 		then store:fill()
+	elseif key == '7' 		then selectedTile = store:select(1)
+	elseif key == '8' 		then selectedTile = store:select(2)
+	elseif key == '9' 		then selectedTile = store:select(3)
+	elseif key == '0' 		then selectedTile = store:select(4)
+	elseif key == 'm' 		then truck:advance(grid)
 	end
 end
 
-function place(player)
+function place(player, selector)
+	local selectorLoc = selector:getPos()
 	if grid[selectorLoc['q']] == nil then grid[selectorLoc['q']] = {} end
 	if selectedTile ~= nil then
-		print(grid)
 		grid[selectorLoc['q']][selectorLoc['r']] = {player = 1, tile = selectedTile}
 		selectedTile = nil
-		print(grid)
 	end
 end
 
