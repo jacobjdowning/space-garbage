@@ -3,6 +3,7 @@ local Sprite = require("sprites.Sprite")
 local Selector = {
 	pos = {q = 5, r = 5},
 	hexGrid = nil,
+	hide = false,
 }
 
 Selector.__index = Selector
@@ -29,6 +30,7 @@ function Selector.new(quad, hexGrid, q, r)
 	if r ~= nil then self.pos.r = r end
 	local x,y = hexGrid.CoordsToPixels(self.pos.q,self.pos.r)
 	self:setPos(x,y)
+	self.oy = 2
 	return self
 end
 

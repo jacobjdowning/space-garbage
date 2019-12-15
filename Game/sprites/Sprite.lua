@@ -7,6 +7,9 @@ local Sprite  = {
 	centerAnchor = false,
 	w = 0,
 	h = 0,
+	hide = false,
+	ox = 0,
+	oy = 0
 }
 Sprite.__index = Sprite
 
@@ -40,13 +43,19 @@ function Sprite:update(dt)
 	self.y = dt*self.vy + self.y
 end
 
+function Sprite:hide()
+	self.hide = true
+end
+
 function Sprite:draw(spriteBatch)
 	-- anchored at center
 	local ox, oy = 0, 0
 	if self.centerAnchor then
 	    ox, oy = self.w/2.0, self.h/2.0
 	end
-	spriteBatch:add(self.quad, self.x, self.y, 0, 1, 1, ox, oy)
+	if not self.hide then
+		spriteBatch:add(self.quad, self.x, self.y, 0, 1, 1, ox + self.ox, oy + self.oy)
+	end
 end
 
 return Sprite

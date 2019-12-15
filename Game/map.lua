@@ -6,7 +6,9 @@ local map = {
 	hexGrid = nil,
 	canisters = {},
 	nogoQuad = nil,
-	canisterQuad = nil
+	canisterQuad = nil,
+	finishQuad = nil,
+	middleQuad = nil
 }
 
 function map.set(quads, hexGrid)
@@ -17,8 +19,10 @@ function map.set(quads, hexGrid)
 		map.tiles[i] = quads['Tiles/S'..i..'.png']
 	end
 	map.hexGrid = hexGrid
-	map.nogoQuad = quads['Sprites/Pop.png']
+	map.nogoQuad = quads['Tiles/NoGo.png']
 	map.canisterQuad = quads['Tiles/Garbage.png']
+	map.finishQuad = quads['Tiles/Dump.png']
+	map.middleQuad = quads['Tiles/Center.png']
 end
 
 function map.load(levelIndex, trucks)
@@ -51,12 +55,25 @@ function map.roundCorners(rows, columns, left, right)
 	end
 end
 
+function map.check(truck)
+	local tq, tr = truck:getQR()
+	for i,canister in ipairs(map.canisters) do
+		if canister.q == tq and canister.r == tr then
+		    table.remove(map.canisters, i)
+		    return "canister"
+		end
+	end
+	if map.grid[tq] == nil or map.grid[tq][tr] == nil then return "loss" end
+	if map.grid[tq][tr] == 'finish' then return 'finish' end
+	return 'path'
+end
+
 function map.draw(batch)
 	for q=0,10 do
 		for r=0,10 do
 			local x, y = map.hexGrid.CoordsToPixels(q,r)
 			if map.grid[q] == nil or map.grid[q][r] ~= 'hidden' then
-				text:set({{0,0,0,1},"" .. q .. "," .. r})
+				text:set({{1,1,1,1},"" .. q .. "," .. r})
 				batch:add(hex, x, y)
 				love.graphics.draw(text, 
 					x + map.hexGrid.hexWidth/2, 
@@ -65,15 +82,20 @@ function map.draw(batch)
 			if map.grid[q] ~=nil then 
 				if type(map.grid[q][r]) == 'table' then
 					batch:add(map.tiles[map.grid[q][r]['tile']], x, y)
+					if map.grid[q][r]['tile'] > 10 then
+						batch:add(map.middleQuad, x, y, 0, 1, 1, -44, -25)
+					end
 				elseif map.grid[q][r] == 'nogo' then
-					batch:add(map.nogoQuad, x, y)
+					batch:add(map.nogoQuad, x, y, 0, 1, 1, -26, 2)
+				elseif map.grid[q][r] == 'finish' then
+					batch:add(map.finishQuad, x, y, 0, 1, 1, -12, 6)
 				end
 			end
 		end
 	end
 	for i,canister in ipairs(map.canisters) do
 		local x,y = map.hexGrid.CoordsToPixels(canister.q, canister.r)
-		batch:add(map.canisterQuad, x, y, 0, 1, 1, 0, 34)
+		batch:add(map.canisterQuad, x, y, 0, 1, 1, -39, 21)
 	end
 end
 

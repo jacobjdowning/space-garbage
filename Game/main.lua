@@ -8,6 +8,7 @@ local map = require "map"
 local store = nil
 local selectedTile = nil
 local truck = nil
+local score = 0
 
 function love.load()
 	batch, quads = loadAtlas('assets/sheet.xml')
@@ -25,7 +26,7 @@ function love.load()
 
 	selector = Selector(quads['Sprites/Selector.png'], hexGrid) -- center this**
 
-	love.graphics.setBackgroundColor(0, 1, 1, 1)
+	love.graphics.setBackgroundColor(0, 0, 0, 1)
 	local success = love.window.setMode(1920, 1020)
 
 	font = love.graphics.newFont('assets/UniversCondensed.ttf', 16)
@@ -62,11 +63,33 @@ function love.keypressed(key, code, isRepeat)
 	elseif key == '8' 		then selectedTile = store:select(2)
 	elseif key == '9' 		then selectedTile = store:select(3)
 	elseif key == '0' 		then selectedTile = store:select(4)
-	elseif key == 'm' 		then truck:advance(map.grid)
+	elseif key == 'm' 		then step()
 	end
 end
 
-function place(player, selector, store)
+function step()
+	local result
+	for i,iTruck in ipairs({truck}) do
+		iTruck:advance(map.grid)
+		result = map.check(iTruck)
+		if result == 'canister' then
+			score = score + 1
+		elseif result == 'finish' then
+			iTruck.hide = true
+		end
+	end
+	if checkForWin() then print("WIN!") end
+end
+
+function checkForWin()
+	local bothTrucksOut = true
+	for i,v in ipairs({truck}) do
+		bothTrucksOut = bothTrucksOut and v.hide
+	end
+	return bothTrucksOut and score >= #map.canisters
+end
+
+function place(player, selector, store) --TODO Check if you can place based on connected
 	local selectorLoc = selector:getPos()
 	if map.grid[selectorLoc['q']] == nil then map.grid[selectorLoc['q']] = {} end
 	if map.grid[selectorLoc['q']][selectorLoc['r']] ~= nil then return end
