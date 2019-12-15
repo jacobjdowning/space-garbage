@@ -9,13 +9,14 @@ local store = nil
 local selectedTile = nil
 local truck = nil
 local score = 0
+local playerColors = {{1,0,1,1}, {0,0,1,1}}
 
 function love.load()
 	batch, quads = loadAtlas('assets/sheet.xml')
 
-	map.set(quads, hexGrid)
+	map.set(quads, hexGrid, playerColors)
 
-	store = Store(quads['UI/store.png'], map, quads['Tiles/IsoEmpty.png'], quads['Tiles/Center.png'])
+	store = Store(quads['UI/store.png'], map, quads['Tiles/IsoEmpty.png'], quads['Tiles/Center.png'], playerColors)
 
 	hex = quads["Tiles/IsoEmpty.png"]
 	hexGrid.set(hex)
@@ -24,7 +25,7 @@ function love.load()
 
 	map.load(1, {truck})
 
-	selector = Selector(quads['Sprites/Selector.png'], hexGrid) -- center this**
+	selector = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1])
 
 	love.graphics.setBackgroundColor(0, 0, 0, 1)
 	local success = love.window.setMode(1920, 1020)

@@ -8,10 +8,11 @@ local map = {
 	nogoQuad = nil,
 	canisterQuad = nil,
 	finishQuad = nil,
-	middleQuad = nil
+	middleQuad = nil,
+	playercolors = {}
 }
 
-function map.set(quads, hexGrid)
+function map.set(quads, hexGrid, playercolors)
 	for i=1,#map.tileNames do
 		map.tiles[map.tileNames[i]] = quads['Tiles/'..map.tileNames[i]..'.png']
 	end
@@ -23,6 +24,7 @@ function map.set(quads, hexGrid)
 	map.canisterQuad = quads['Tiles/Garbage.png']
 	map.finishQuad = quads['Tiles/Dump.png']
 	map.middleQuad = quads['Tiles/Center.png']
+	map.playercolors = playercolors
 end
 
 function map.load(levelIndex, trucks)
@@ -81,7 +83,11 @@ function map.draw(batch)
 			end
 			if map.grid[q] ~=nil then 
 				if type(map.grid[q][r]) == 'table' then
+					if map.grid[q][r].tile > 10 then
+						batch:setColor(unpack(map.playercolors[map.grid[q][r].player]))
+					end
 					batch:add(map.tiles[map.grid[q][r]['tile']], x, y)
+					batch:setColor(1,1,1,1)
 					if map.grid[q][r]['tile'] > 10 then
 						batch:add(map.middleQuad, x, y, 0, 1, 1, -44, -25)
 					end

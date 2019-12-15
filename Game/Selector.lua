@@ -4,6 +4,7 @@ local Selector = {
 	pos = {q = 5, r = 5},
 	hexGrid = nil,
 	hide = false,
+	color = {},
 }
 
 Selector.__index = Selector
@@ -24,14 +25,21 @@ local direction = {
 	{q = 0, r = -1}
 }
 
-function Selector.new(quad, hexGrid, q, r)
+function Selector.new(quad, hexGrid, q, r, color)
 	self = setmetatable(Sprite.new(quad, 0, 0), Selector)
 	if q ~= nil then self.pos.q = q end
 	if r ~= nil then self.pos.r = r end
 	local x,y = hexGrid.CoordsToPixels(self.pos.q,self.pos.r)
 	self:setPos(x,y)
 	self.oy = 2
+	self.color = color
 	return self
+end
+
+function Selector:draw(batch)
+	batch:setColor(unpack(self.color))
+	Sprite.draw(self, batch)
+	batch:setColor(1,1,1,1)
 end
 
 function Selector:move(directionIndex)
