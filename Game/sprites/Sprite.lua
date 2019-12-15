@@ -42,7 +42,11 @@ end
 
 function Sprite:draw(spriteBatch)
 	-- anchored at center
-	spriteBatch:add(self.quad, self.x, self.y, 0, 1, 1, self.w/2.0, self.h/2.0)
+	local ox, oy = 0, 0
+	if self.centerAnchor then
+	    ox, oy = self.w/2.0, self.h/2.0
+	end
+	spriteBatch:add(self.quad, self.x, self.y, 0, 1, 1, ox, oy)
 end
 
 return Sprite

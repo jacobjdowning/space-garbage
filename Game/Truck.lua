@@ -35,6 +35,7 @@ function Truck.new(anims, q, r, hexGrid)
 	y = y + hexGrid.hexHeight/2
 	self.hexGrid = hexGrid
 	self:setPos(x,y)
+	self.centerAnchor = true
 	return self
 end
 
@@ -48,7 +49,7 @@ function Truck:advance(grid)
 			x = x + hexGrid.hexWidth/2
 			y = y + hexGrid.hexHeight/2
 			self.q, self.r = q, r
-			self.cameFrom = opSide(side)
+			self.cameFrom = Truck.opSide(side)
 			self:setPos(x, y)
 			print(self.cameFrom)
 			return
@@ -56,7 +57,7 @@ function Truck:advance(grid)
 	end	
 end
 
-function opSide(side)
+function Truck.opSide(side)
 	nextSide = (side + 3) % 6
 	if nextSide == 0 then nextSide = 6 end
 	return nextSide

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:9e47bff79805be33aa461fbf5931d479:f72096da9b870709e332edbcedd8e06a:1424f48906e31749f237a83d3b5d03fb$ -->
+<!-- $TexturePacker:SmartUpdate:e7d40a59ce1619846d77477e7304832f:58194bbdda0da71148b09f718b871640:1424f48906e31749f237a83d3b5d03fb$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,7 +19,41 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="sheet.png" width="153" height="66">
-    <sprite n="Selector2.png" x="0" y="0" w="116" h="66"/>
-    <sprite n="Truck.png" x="116" y="0" w="37" h="66"/>
+<TextureAtlas imagePath="sheet.png" width="481" height="631">
+    <sprite n="Sprites/Pop.png" x="348" y="532" w="116" h="99"/>
+    <sprite n="Sprites/Selector.png" x="348" y="462" w="116" h="70"/>
+    <sprite n="Sprites/Selector2.png" x="0" y="396" w="116" h="66"/>
+    <sprite n="Sprites/SpaceDump.png" x="0" y="532" w="116" h="73"/>
+    <sprite n="Sprites/T1.png" x="0" y="0" w="32" h="42"/>
+    <sprite n="Sprites/T2.png" x="64" y="0" w="48" h="44"/>
+    <sprite n="Sprites/T3.png" x="156" y="0" w="48" h="44"/>
+    <sprite n="Sprites/T4.png" x="32" y="0" w="32" h="42"/>
+    <sprite n="Sprites/T5.png" x="112" y="0" w="44" h="44"/>
+    <sprite n="Sprites/T6.png" x="204" y="0" w="48" h="44"/>
+    <sprite n="Sprites/Truck.png" x="348" y="264" w="37" h="66"/>
+    <sprite n="Tiles/21.png" x="116" y="264" w="116" h="66"/>
+    <sprite n="Tiles/31.png" x="116" y="396" w="116" h="66"/>
+    <sprite n="Tiles/32.png" x="232" y="264" w="116" h="66"/>
+    <sprite n="Tiles/34.png" x="232" y="462" w="116" h="66"/>
+    <sprite n="Tiles/41.png" x="0" y="462" w="116" h="66"/>
+    <sprite n="Tiles/42.png" x="232" y="396" w="116" h="66"/>
+    <sprite n="Tiles/43.png" x="348" y="396" w="116" h="66"/>
+    <sprite n="Tiles/51.png" x="0" y="264" w="116" h="66"/>
+    <sprite n="Tiles/52.png" x="116" y="462" w="116" h="66"/>
+    <sprite n="Tiles/53.png" x="116" y="198" w="116" h="66"/>
+    <sprite n="Tiles/54.png" x="232" y="66" w="116" h="66"/>
+    <sprite n="Tiles/61.png" x="116" y="66" w="116" h="66"/>
+    <sprite n="Tiles/62.png" x="0" y="132" w="116" h="66"/>
+    <sprite n="Tiles/63.png" x="0" y="66" w="116" h="66"/>
+    <sprite n="Tiles/64.png" x="252" y="0" w="116" h="66"/>
+    <sprite n="Tiles/Dump.png" x="116" y="532" w="116" h="73"/>
+    <sprite n="Tiles/Garbage.png" x="232" y="532" w="116" h="99"/>
+    <sprite n="Tiles/IsoEmpty.png" x="348" y="66" w="116" h="66"/>
+    <sprite n="Tiles/S1.png" x="348" y="132" w="116" h="66"/>
+    <sprite n="Tiles/S2.png" x="232" y="198" w="116" h="66"/>
+    <sprite n="Tiles/S3.png" x="348" y="198" w="116" h="66"/>
+    <sprite n="Tiles/S4.png" x="0" y="198" w="116" h="66"/>
+    <sprite n="Tiles/S5.png" x="232" y="132" w="116" h="66"/>
+    <sprite n="Tiles/S6.png" x="116" y="132" w="116" h="66"/>
+    <sprite n="UI/store.png" x="0" y="330" w="481" h="66"/>
 </TextureAtlas>
