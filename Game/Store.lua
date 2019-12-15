@@ -45,7 +45,7 @@ function Store:draw(batch)
 	local _,_,imgWidth, _ = self.image:getViewport()
 	for i=1,#self.currentTiles do
 		if self.currentTiles[i] ~= nil then
-			local x, y = self.x + (i-1) * imgWidth/4, self.y
+			local x, y = self.x + (i-1) * imgWidth/4 + 11, self.y + 15
 			batch:add(self.tiles[self.currentTiles[i]], x,y)
 			batch:add(self.bg, x,y)
 			batch:add(self.center, x, y, 0, 1, 1, -44, -25)

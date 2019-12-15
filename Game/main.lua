@@ -16,7 +16,7 @@ function love.load()
 
 	map.set(quads, hexGrid, playerColors)
 
-	store = Store(quads['UI/store.png'], map, quads['Tiles/IsoEmpty.png'], quads['Tiles/Center.png'], playerColors)
+	store = Store(quads['Sprites/Shop.png'], map, quads['Tiles/IsoEmpty.png'], quads['Tiles/Center.png'], playerColors)
 
 	hex = quads["Tiles/IsoEmpty.png"]
 	hexGrid.set(hex)
