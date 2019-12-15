@@ -50,7 +50,6 @@ function Store:select(index)
 	if self.selectedTiles[1] ~= nil then return end
 	self.selectedTiles[1] = self.currentTiles[index]
 	self.currentTiles[index] = nil
-	
 end
 
 return Store
