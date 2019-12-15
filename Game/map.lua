@@ -6,7 +6,8 @@ local map = {
 	hexGrid = nil,
 	canisters = {},
 	nogoQuad = nil,
-	canisterQuad = nil
+	canisterQuad = nil,
+	finishQuad = nil
 }
 
 function map.set(quads, hexGrid)
@@ -19,6 +20,7 @@ function map.set(quads, hexGrid)
 	map.hexGrid = hexGrid
 	map.nogoQuad = quads['Sprites/Pop.png']
 	map.canisterQuad = quads['Tiles/Garbage.png']
+	map.finishQuad = quads['Tiles/Dump.png'] 
 end
 
 function map.load(levelIndex, trucks)
@@ -51,6 +53,19 @@ function map.roundCorners(rows, columns, left, right)
 	end
 end
 
+function map.check(truck)
+	local tq, tr = truck:getQR()
+	for i,canister in ipairs(map.canisters) do
+		if canister.q == tq and canister.r == tr then
+		    table.remove(map.canisters, i)
+		    return "canister"
+		end
+	end
+	if map.grid[tq] == nil or map.grid[tq][tr] == nil then return "loss" end
+	if map.grid[tq][tr] == 'finish' then return 'finish' end
+	return 'path'
+end
+
 function map.draw(batch)
 	for q=0,10 do
 		for r=0,10 do
@@ -67,6 +82,8 @@ function map.draw(batch)
 					batch:add(map.tiles[map.grid[q][r]['tile']], x, y)
 				elseif map.grid[q][r] == 'nogo' then
 					batch:add(map.nogoQuad, x, y)
+				elseif map.grid[q][r] == 'finish' then
+					batch:add(map.finishQuad, x, y, 0, 1, 1, 0, 6)
 				end
 			end
 		end

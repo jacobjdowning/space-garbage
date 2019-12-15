@@ -3,6 +3,7 @@ local Sprite = require("sprites.Sprite")
 local Selector = {
 	pos = {q = 5, r = 5},
 	hexGrid = nil,
+	hide = false,
 }
 
 Selector.__index = Selector
