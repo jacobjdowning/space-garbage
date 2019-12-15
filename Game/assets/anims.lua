@@ -19,5 +19,12 @@
 -- 	},
 
 return {
-
+	truck = {
+		up = {
+			frames = {
+				'Truck.png',
+			},
+			duration = 0.1
+		}
+	}
 }
