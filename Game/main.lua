@@ -12,7 +12,7 @@ local truck = nil
 function love.load()
 	batch, quads = loadAtlas('assets/sheet.xml')
 
-	map.load(quads, hexGrid)
+	map.set(quads, hexGrid)
 
 	store = Store(quads['UI/store.png'], map)
 
@@ -20,6 +20,8 @@ function love.load()
 	hexGrid.set(hex)
 
 	truck = Truck(Truck.buildAnims(quads, anims['truck']), 5, 5, hexGrid)
+
+	map.load(1, {truck})
 
 	selector = Selector(quads['Sprites/Selector.png'], hexGrid) -- center this**
 
@@ -67,6 +69,7 @@ end
 function place(player, selector, store)
 	local selectorLoc = selector:getPos()
 	if map.grid[selectorLoc['q']] == nil then map.grid[selectorLoc['q']] = {} end
+	if map.grid[selectorLoc['q']][selectorLoc['r']] ~= nil then return end
 	if store.selectedTiles[player] ~= nil then
 		map.grid[selectorLoc['q']][selectorLoc['r']] = {player = 1, tile = store.selectedTiles[player]}
 		store.selectedTiles[player] = nil

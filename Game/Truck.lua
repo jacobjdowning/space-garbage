@@ -2,7 +2,7 @@ local AnimSprite = require("sprites.AnimSprite")
 
 local Truck = {
 	player = 1,
-	cameFrom = 4,
+	cameFrom = 0,
 	q = 0,
 	r = 0,
 	hexGrid = nil,
@@ -39,6 +39,13 @@ function Truck.new(anims, q, r, hexGrid)
 	return self
 end
 
+function Truck:setQR(q, r)
+	local x,y = hexGrid.CoordsToPixels(q,r)
+	x = x + hexGrid.hexWidth/2
+	y = y + hexGrid.hexHeight/2
+	self:setPos(x,y)
+end
+
 function Truck:advance(grid)
 	currentTile = grid[self.q][self.r]['tile']
 	sides = {math.floor(currentTile/10.0), currentTile%10}
@@ -51,7 +58,6 @@ function Truck:advance(grid)
 			self.q, self.r = q, r
 			self.cameFrom = Truck.opSide(side)
 			self:setPos(x, y)
-			print(self.cameFrom)
 			return
 		end
 	end	

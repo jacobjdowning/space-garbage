@@ -1,15 +1,43 @@
+local levels = require "levels"
 local map = {
 	grid = {},
 	tiles = {},
 	tileNames = {21, 31, 32, 41, 42, 43, 51, 52, 53, 54, 61, 62, 63, 64},
 	hexGrid = nil,
+	canisters = {},
+	nogoQuad = nil,
+	canisterQuad = nil
 }
 
-function map.load(quads, hexGrid)
+function map.set(quads, hexGrid)
 	for i=1,#map.tileNames do
 		map.tiles[map.tileNames[i]] = quads['Tiles/'..map.tileNames[i]..'.png']
 	end
+	for i=1, 6 do
+		map.tiles[i] = quads['Tiles/S'..i..'.png']
+	end
 	map.hexGrid = hexGrid
+	map.nogoQuad = quads['Sprites/Pop.png']
+	map.canisterQuad = quads['Tiles/Garbage.png']
+end
+
+function map.load(levelIndex, trucks)
+	local level = levels[levelIndex]
+	map.grid = {}
+	for i,nogo in ipairs(level.nogo) do
+		if map.grid[nogo.q] == nil then map.grid[nogo.q] = {} end
+		map.grid[nogo.q][nogo.r] = 'nogo' -- random others or defined in level
+	end
+	for i,start in ipairs(level.starters) do
+		if map.grid[start.q] == nil then map.grid[start.q] = {} end
+		map.grid[start.q][start.r] = {player = i, tile = start.s}
+		trucks[i]:setQR(start.q, start.r)
+	end
+
+	map.canisters = level.canisters
+	
+	if map.grid[level.finish.q] == nil then map.grid[level.finish.q] = {} end
+	map.grid[level.finish.q][level.finish.r] = 'finish'
 end
 
 function map.roundCorners(rows, columns, left, right)
@@ -34,10 +62,18 @@ function map.draw(batch)
 					x + map.hexGrid.hexWidth/2, 
 					y + map.hexGrid.hexHeight/2)
 			end
-			if map.grid[q] ~=nil and type(map.grid[q][r]) == 'table' then
-				batch:add(map.tiles[map.grid[q][r]['tile']], x, y)
+			if map.grid[q] ~=nil then 
+				if type(map.grid[q][r]) == 'table' then
+					batch:add(map.tiles[map.grid[q][r]['tile']], x, y)
+				elseif map.grid[q][r] == 'nogo' then
+					batch:add(map.nogoQuad, x, y)
+				end
 			end
 		end
+	end
+	for i,canister in ipairs(map.canisters) do
+		local x,y = map.hexGrid.CoordsToPixels(canister.q, canister.r)
+		batch:add(map.canisterQuad, x, y, 0, 1, 1, 0, 34)
 	end
 end
 
