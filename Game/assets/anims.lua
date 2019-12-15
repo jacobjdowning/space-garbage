@@ -22,7 +22,7 @@ return {
 	truck = {
 		up = {
 			frames = {
-				'Truck.png',
+				'Sprites/Truck.png',
 			},
 			duration = 0.1
 		}

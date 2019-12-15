@@ -1,7 +1,7 @@
 hexGrid = {}
 
 function hexGrid.set(hex)
-	local hexWidth, hexHeight = hex:getDimensions()
+	local _, _, hexWidth, hexHeight = hex:getViewport()
 	hexWidth, hexHeight = hexWidth + 8, hexHeight + 8
 	hexGrid.hexWidth, hexGrid.hexHeight = hexWidth, hexHeight
 	hexGrid.units = {q = {0, hexHeight},
