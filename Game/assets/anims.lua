@@ -19,10 +19,19 @@
 -- 	},
 
 return {
-	truck = {
+	truckp = {
 		up = {
 			frames = {
-				'Sprites/Truck.png',
+				'Sprites/T1.png',
+			},
+			duration = 0.1
+		}
+	},
+
+	truckb = {
+		up = {
+			frames = {
+				'Sprites/BT1.png',
 			},
 			duration = 0.1
 		}

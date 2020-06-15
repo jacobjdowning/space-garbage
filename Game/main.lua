@@ -7,7 +7,7 @@ local Selector = require "Selector"
 local map = require "map"
 local store = nil
 local selectedTile = nil
-local truck = nil
+local trucks = {}
 local score = 0
 local playerColors = {{1,0,1,1}, {0,0,1,1}}
 
@@ -21,9 +21,10 @@ function love.load()
 	hex = quads["Tiles/IsoEmpty.png"]
 	hexGrid.set(hex)
 
-	truck = Truck(Truck.buildAnims(quads, anims['truck']), 5, 5, hexGrid)
+	trucks[1] = Truck(Truck.buildAnims(quads, anims['truckp']), 5, 5, hexGrid)	
+	trucks[2] = Truck(Truck.buildAnims(quads, anims['truckb']), 5, 5, hexGrid)
 
-	map.load(1, {truck})
+	map.load(1, trucks)
 
 	selector = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1])
 
@@ -44,12 +45,16 @@ function love.draw()
 		store:draw(batch)
 		map.draw(batch)
 		selector:draw(batch)
-		truck:draw(batch)
+		for i,v in ipairs(trucks) do
+			v:draw(batch)
+		end
 	love.graphics.draw(batch)
 end
 
 function love.update(dt)
-	truck:update(dt)
+	for i,v in ipairs(trucks) do
+		v:update(dt)
+	end
 end
 
 function love.keypressed(key, code, isRepeat)
@@ -70,7 +75,7 @@ end
 
 function step()
 	local result
-	for i,iTruck in ipairs({truck}) do
+	for i,iTruck in ipairs(trucks) do
 		iTruck:advance(map.grid)
 		result = map.check(iTruck)
 		if result == 'canister' then
@@ -84,17 +89,17 @@ end
 
 function checkForWin()
 	local bothTrucksOut = true
-	for i,v in ipairs({truck}) do
+	for i,v in ipairs(trucks) do
 		bothTrucksOut = bothTrucksOut and v.hide
 	end
 	return bothTrucksOut and score >= #map.canisters
 end
 
-function place(player, selector, store) --TODO Check if you can place based on connected
+function place(player, selector, store)
 	local selectorLoc = selector:getPos()
 	if map.grid[selectorLoc['q']] == nil then map.grid[selectorLoc['q']] = {} end
 	if map.grid[selectorLoc['q']][selectorLoc['r']] ~= nil then return end
-	if store.selectedTiles[player] ~= nil then
+	if store.selectedTiles[player] ~= nil and selector:canPlace(store.selectedTiles[player], map.grid) then
 		map.grid[selectorLoc['q']][selectorLoc['r']] = {player = 1, tile = store.selectedTiles[player]}
 		store.selectedTiles[player] = nil
 	end
