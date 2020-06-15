@@ -49,6 +49,29 @@ function Selector:move(directionIndex)
 	self:setPos(x,y)
 end
 
+function Selector:canPlace(placing, grid)
+	local placeSides = {math.floor(placing/10.0), placing%10}
+	local placeable = true
+	for i,side in ipairs(placeSides) do
+		local nextTileShift = direction[side]
+		local nextTile = grid[self.pos.q+nextTileShift['q']][self.pos.r+nextTileShift['r']]
+		print("Next Tile: ", nextTile)
+		if nextTile ~= nil and type(nextTile.tile) == 'number' then
+			print("Checked tile: ", nextTile.tile, " Placed Tile: ", side, " opSide: ", opSide(side))
+		    local nextTileSides = {math.floor(nextTile.tile/10.0), nextTile.tile%10}
+		    print("TileSides: ", nextTileSides[1], ',', nextTileSides[2])
+		    placeable = placeable and (nextTileSides[1] == opSide(side) or nextTileSides[2] == opSide(side))
+		end
+	end
+	return placeable
+end
+
+function opSide(side)
+	nextSide = (side + 3) % 6
+	if nextSide == 0 then nextSide = 6 end
+	return nextSide
+end
+
 function Selector:getPos()
 	return self.pos
 end
