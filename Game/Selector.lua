@@ -51,19 +51,31 @@ end
 
 function Selector:canPlace(placing, grid)
 	local placeSides = {math.floor(placing/10.0), placing%10}
-	local placeable = true
-	for i,side in ipairs(placeSides) do
-		local nextTileShift = direction[side]
-		local nextTile = grid[self.pos.q+nextTileShift['q']][self.pos.r+nextTileShift['r']]
-		print("Next Tile: ", nextTile)
+	for i, dir in ipairs(direction) do
+
+		if grid[self.pos.q+dir['q']] == nil then
+			return false
+		end
+		
+		local nextTile = grid[self.pos.q+dir['q']][self.pos.r+dir['r']]
+	 	
+		if nextTile == "hide" or nextTile == "nogo" then
+			if i == placeSides[1] or placeSides[0] then
+				return false
+			end
+		end
+
 		if nextTile ~= nil and type(nextTile.tile) == 'number' then
-			print("Checked tile: ", nextTile.tile, " Placed Tile: ", side, " opSide: ", opSide(side))
-		    local nextTileSides = {math.floor(nextTile.tile/10.0), nextTile.tile%10}
-		    print("TileSides: ", nextTileSides[1], ',', nextTileSides[2])
-		    placeable = placeable and (nextTileSides[1] == opSide(side) or nextTileSides[2] == opSide(side))
+			local nextTileSides = {math.floor(nextTile.tile/10.0), nextTile.tile%10}
+			local isPlacedDir = i == placeSides[1] or i == placeSides[0]
+			local nextHasOpposite = nextTileSides[1] == opSide(i) or nextTileSides[2] == opSide(i)
+			
+			if isPlacedDir ~= nextHasOpposite then --Used as xor
+				return false
+			end
 		end
 	end
-	return placeable
+	return true
 end
 
 function opSide(side)
