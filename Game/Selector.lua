@@ -59,8 +59,21 @@ function Selector:canPlace(placing, grid)
 			return false
 		end
 		
-		local nextTile = grid[self.pos.q+dir['q']][self.pos.r+dir['r']]
-	 	
+		local nextQ = self.pos.q+dir['q']
+		local nextR = self.pos.r+dir['r']
+
+		--0 and 10 describe the sides of the map,
+		--those should probably be stored somewhere else
+		if (nextQ < 0 or nextR < 0 or nextQ > 10 or nextR > 10) then
+			return false
+		end
+
+		local nextTile = grid[nextQ][nextR]
+
+		if (nextTile == 'hidden') then
+			return false
+		end
+
 		if nextTile == "hide" or nextTile == "nogo" then
 			if isPlacedDir then
 				return false
