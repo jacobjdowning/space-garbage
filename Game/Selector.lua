@@ -53,6 +53,8 @@ function Selector:canPlace(placing, grid)
 	local placeSides = {math.floor(placing/10.0), placing%10}
 	for i, dir in ipairs(direction) do
 
+		local isPlacedDir = (i == placeSides[1]) or (i == placeSides[2])
+
 		if grid[self.pos.q+dir['q']] == nil then
 			return false
 		end
@@ -60,16 +62,15 @@ function Selector:canPlace(placing, grid)
 		local nextTile = grid[self.pos.q+dir['q']][self.pos.r+dir['r']]
 	 	
 		if nextTile == "hide" or nextTile == "nogo" then
-			if i == placeSides[1] or placeSides[0] then
+			if isPlacedDir then
 				return false
 			end
 		end
 
+
 		if nextTile ~= nil and type(nextTile.tile) == 'number' then
 			local nextTileSides = {math.floor(nextTile.tile/10.0), nextTile.tile%10}
-			local isPlacedDir = i == placeSides[1] or i == placeSides[0]
 			local nextHasOpposite = nextTileSides[1] == opSide(i) or nextTileSides[2] == opSide(i)
-			
 			if isPlacedDir ~= nextHasOpposite then --Used as xor
 				return false
 			end
