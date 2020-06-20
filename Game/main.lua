@@ -4,8 +4,10 @@ local Store = require "Store"
 local Truck = require "Truck"
 local hexGrid = require "hexGrid"
 local Selector = require "Selector"
+local Timer = require "Timer"
 local map = require "map"
 local store = nil
+local timer = nil
 local selectedTile = nil
 local trucks = {}
 local score = 0
@@ -28,6 +30,8 @@ function love.load()
 
 	selector = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1])
 
+	timer = Timer(quads['Sprites/TimerHand.png'], quads['Sprites/Timer.png'], 20, 20)
+
 	love.graphics.setBackgroundColor(0, 0, 0, 1)
 	local success = love.window.setMode(1920, 1020)
 
@@ -45,6 +49,7 @@ function love.draw()
 		store:draw(batch)
 		map.draw(batch)
 		selector:draw(batch)
+		timer:draw(batch)
 		for i,v in ipairs(trucks) do
 			v:draw(batch)
 		end
@@ -52,6 +57,7 @@ function love.draw()
 end
 
 function love.update(dt)
+	timer:update(dt)
 	for i,v in ipairs(trucks) do
 		v:update(dt)
 	end
