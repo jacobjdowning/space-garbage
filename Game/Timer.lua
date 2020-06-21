@@ -1,14 +1,15 @@
 local Sprite = require("sprites.Sprite")
 
 local Timer = {
-	time = 0,
+	time = 0.1,
 	handQuad = nil,
 	faceQuad = nil,
 	w = 0,
 	h = 0,
-	speed = 10,
+	speed = 1,
 	handWidth = 0,
-	handHeight = 0
+	handHeight = 0,
+	enabled = true
 }
 
 Timer.__index = Timer
@@ -30,9 +31,13 @@ function Timer.new(handQuad, faceQuad, x, y)
 	return self
 end
 
-
 function Timer:update(dt)
-	self.time = self.time + dt * self.speed
+	if self.enabled then
+		self.time = self.time + dt * self.speed
+		if self.time > 2 * math.pi then
+			self.time = 0
+		end
+	end
 end
 
 function Timer:draw(spriteBatch)

@@ -58,6 +58,9 @@ end
 
 function love.update(dt)
 	timer:update(dt)
+	if timer.time == 0  and timer.enabled then
+		step()
+	end
 	for i,v in ipairs(trucks) do
 		v:update(dt)
 	end
@@ -88,6 +91,10 @@ function step()
 			score = score + 1
 		elseif result == 'finish' then
 			iTruck.hide = true
+		elseif result == 'loss' then
+			-- LOSS
+			print("Loss")
+			timer.enabled = false
 		end
 	end
 	if checkForWin() then print("WIN!") end
