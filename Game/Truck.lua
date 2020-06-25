@@ -43,6 +43,8 @@ function Truck:setQR(q, r)
 	local x,y = hexGrid.CoordsToPixels(q,r)
 	x = x + hexGrid.hexWidth/2
 	y = y + hexGrid.hexHeight/2
+	self.q = q
+	self.r = r
 	self:setPos(x,y)
 	self.hide = false
 end
@@ -52,6 +54,7 @@ function Truck:getQR()
 end
 
 function Truck:advance(grid)
+	print(self.q, self.r)
 	if self.hide then return end
 	currentTile = grid[self.q][self.r]['tile']
 	sides = {math.floor(currentTile/10.0), currentTile%10}
