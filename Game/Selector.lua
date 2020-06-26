@@ -27,6 +27,7 @@ local direction = {
 
 function Selector.new(quad, hexGrid, q, r, color)
 	self = setmetatable(Sprite.new(quad, 0, 0), Selector)
+	self.pos = {}
 	if q ~= nil then self.pos.q = q end
 	if r ~= nil then self.pos.r = r end
 	local x,y = hexGrid.CoordsToPixels(self.pos.q,self.pos.r)

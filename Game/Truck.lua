@@ -54,7 +54,6 @@ function Truck:getQR()
 end
 
 function Truck:advance(grid)
-	print(self.q, self.r)
 	if self.hide then return end
 	currentTile = grid[self.q][self.r]['tile']
 	sides = {math.floor(currentTile/10.0), currentTile%10}

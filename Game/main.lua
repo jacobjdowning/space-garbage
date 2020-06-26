@@ -10,6 +10,7 @@ local store = nil
 local timer = nil
 local selectedTile = nil
 local trucks = {}
+local selectors = {}
 local score = 0
 local playerColors = {{1,0,1,1}, {0,0,1,1}}
 
@@ -28,7 +29,9 @@ function love.load()
 
 	map.load(1, trucks)
 
-	selector = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1])
+	selectors[1] = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1])
+	selectors[2] = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[2])
+
 
 	timer = Timer(quads['Sprites/TimerHand.png'], quads['Sprites/Timer.png'], 20, 20)
 
@@ -48,7 +51,9 @@ function love.draw()
 		-- Draw here
 		store:draw(batch)
 		map.draw(batch)
-		selector:draw(batch)
+		for i,v in ipairs(selectors) do
+			v:draw(batch)			
+		end
 		timer:draw(batch)
 		for i,v in ipairs(trucks) do
 			v:draw(batch)
@@ -67,11 +72,11 @@ function love.update(dt)
 end
 
 function love.keypressed(key, code, isRepeat)
-	if 	   key == 'up'		then selector:move(1)
-	elseif key == 'down' 	then selector:move(4)
-	elseif key == 'right' 	then selector:move(3)
-	elseif key == 'left' 	then selector:move(6)
-	elseif key == 'space' 	then place(1, selector, store)
+	if 	   key == 'up'		then selectors[1]:move(1)
+	elseif key == 'down' 	then selectors[1]:move(4)
+	elseif key == 'right' 	then selectors[1]:move(3)
+	elseif key == 'left' 	then selectors[1]:move(6)
+	elseif key == 'space' 	then place(1, selectors[1], store)
 	elseif key == 'escape'  then love.event.push('quit')
 	elseif key == 'f' 		then store:fill()
 	elseif key == '7' 		then selectedTile = store:select(1)
@@ -79,6 +84,10 @@ function love.keypressed(key, code, isRepeat)
 	elseif key == '9' 		then selectedTile = store:select(3)
 	elseif key == '0' 		then selectedTile = store:select(4)
 	elseif key == 'm' 		then step()
+	elseif key == 'w'		then selectors[2]:move(1)
+	elseif key == 's'		then selectors[2]:move(4)
+	elseif key == 'd'		then selectors[2]:move(3)
+	elseif key == 'a'		then selectors[2]:move(6)
 	end
 end
 
