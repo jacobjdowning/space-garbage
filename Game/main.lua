@@ -51,9 +51,15 @@ function love.draw()
 		-- Draw here
 		store:draw(batch)
 		map.draw(batch)
-		for i,v in ipairs(selectors) do
-			v:draw(batch)			
+		if(selectors[1]:getPos().q == selectors[2]:getPos().q and 
+			selectors[1]:getPos().r == selectors[2]:getPos().r) then
+			selectors[1]:drawColor(batch, {0, 1, 0})
+		else
+			for i,v in ipairs(selectors) do
+				v:draw(batch)			
+			end
 		end
+
 		timer:draw(batch)
 		for i,v in ipairs(trucks) do
 			v:draw(batch)

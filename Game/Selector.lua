@@ -37,10 +37,14 @@ function Selector.new(quad, hexGrid, q, r, color)
 	return self
 end
 
-function Selector:draw(batch)
-	batch:setColor(unpack(self.color))
+function Selector:drawColor(batch, color)
+	batch:setColor(unpack(color))
 	Sprite.draw(self, batch)
 	batch:setColor(1,1,1,1)
+end
+
+function Selector:draw(batch)
+	self:drawColor(batch, self.color)	
 end
 
 function Selector:move(directionIndex)
