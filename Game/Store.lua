@@ -8,6 +8,7 @@ local Store = {
 	bg = nil,
 	center = nil,
 	playercolors = {},
+	locations = {{200, 150}, {1500, 150}}
 }
 Store.__index = Store
 
@@ -33,14 +34,17 @@ function Store.new(image, map, bg, center, playercolors)
 end
 
 function Store:draw(batch)
-	if self.selectedTiles[1] ~= nil then
-		local x, y = 200, 150
-		batch:setColor(unpack(self.playercolors[1]))
-		batch:add(self.tiles[self.selectedTiles[1]], 200, 150)
-		batch:setColor(1,1,1,1)
-		batch:add(self.bg, x,y)
-		batch:add(self.center, x, y, 0, 1, 1, -44, -25)
+	for i=1,2 do
+		if self.selectedTiles[i] ~= nil then
+			local x, y = unpack(self.locations[i])
+			batch:setColor(unpack(self.playercolors[i]))
+			batch:add(self.tiles[self.selectedTiles[i]], unpack(self.locations[i]))
+			batch:setColor(1,1,1,1)
+			batch:add(self.bg, x,y)
+			batch:add(self.center, x, y, 0, 1, 1, -44, -25)
+		end
 	end
+	
 	batch:add(self.image, self.x, self.y)
 	local _,_,imgWidth, _ = self.image:getViewport()
 	for i=1,#self.currentTiles do
@@ -60,9 +64,9 @@ function Store:fill()
 	end
 end
 
-function Store:select(index)
-	if self.selectedTiles[1] ~= nil then return end
-	self.selectedTiles[1] = self.currentTiles[index]
+function Store:select(index, player)
+	if self.selectedTiles[player] ~= nil then return end
+	self.selectedTiles[player] = self.currentTiles[index]
 	self.currentTiles[index] = nil
 end
 
