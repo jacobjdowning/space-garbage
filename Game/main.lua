@@ -98,6 +98,7 @@ function love.keypressed(key, code, isRepeat)
 	elseif key == 's'		then selectors[2]:move(4)
 	elseif key == 'd'		then selectors[2]:move(3)
 	elseif key == 'a'		then selectors[2]:move(6)
+	elseif key == 'z'	then place(2, selectors[2], store)
 	end
 end
 
