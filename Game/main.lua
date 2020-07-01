@@ -98,7 +98,7 @@ function love.keypressed(key, code, isRepeat)
 	elseif key == 's'		then selectors[2]:move(4)
 	elseif key == 'd'		then selectors[2]:move(3)
 	elseif key == 'a'		then selectors[2]:move(6)
-	elseif key == 'z'	then place(2, selectors[2], store)
+	elseif key == 'z'		then place(2, selectors[2], store)
 	end
 end
 
@@ -133,7 +133,7 @@ function place(player, selector, store)
 	if map.grid[selectorLoc['q']] == nil then map.grid[selectorLoc['q']] = {} end
 	if map.grid[selectorLoc['q']][selectorLoc['r']] ~= nil then return end
 	if store.selectedTiles[player] ~= nil and selector:canPlace(store.selectedTiles[player], map.grid) then
-		map.grid[selectorLoc['q']][selectorLoc['r']] = {player = 1, tile = store.selectedTiles[player]}
+		map.grid[selectorLoc['q']][selectorLoc['r']] = {player = player, tile = store.selectedTiles[player]}
 		store.selectedTiles[player] = nil
 	end
 end
