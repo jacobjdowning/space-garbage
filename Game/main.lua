@@ -29,8 +29,8 @@ function love.load()
 
 	map.load(1, trucks)
 
-	selectors[1] = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1])
-	selectors[2] = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[2])
+	selectors[1] = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[1], 1)
+	selectors[2] = Selector(quads['Sprites/Selector.png'], hexGrid, 5, 5, playerColors[2], 2)
 
 
 	timer = Timer(quads['Sprites/TimerHand.png'], quads['Sprites/Timer.png'], 20, 20)

@@ -25,7 +25,7 @@ local direction = {
 	{q = 0, r = -1}
 }
 
-function Selector.new(quad, hexGrid, q, r, color)
+function Selector.new(quad, hexGrid, q, r, color, player)
 	self = setmetatable(Sprite.new(quad, 0, 0), Selector)
 	self.pos = {}
 	if q ~= nil then self.pos.q = q end
@@ -34,6 +34,7 @@ function Selector.new(quad, hexGrid, q, r, color)
 	self:setPos(x,y)
 	self.oy = 2
 	self.color = color
+	self.player = player
 	return self
 end
 
@@ -89,6 +90,9 @@ function Selector:canPlace(placing, grid)
 		if nextTile ~= nil and type(nextTile.tile) == 'number' then
 			local nextTileSides = {math.floor(nextTile.tile/10.0), nextTile.tile%10}
 			local nextHasOpposite = nextTileSides[1] == opSide(i) or nextTileSides[2] == opSide(i)
+			if isPlacedDir and nextTile.player ~= self.player then
+				return false
+			end
 			if isPlacedDir ~= nextHasOpposite then --Used as xor
 				return false
 			end
